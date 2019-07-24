@@ -32,7 +32,8 @@ public class NameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
                 startIntent.putExtra("userName",editText.getText().toString());
-                startActivity(startIntent);
+                Intent startGameIntent = new Intent(getApplicationContext(),Game.class);
+                startActivity(startGameIntent);
 
             }
 

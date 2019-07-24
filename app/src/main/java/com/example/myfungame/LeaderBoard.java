@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -18,20 +20,29 @@ public class LeaderBoard extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList userRank = new ArrayList<userInfo>();;
+    public ArrayList userRank = new ArrayList<userInfo>();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-
+        Button clearButton = findViewById(R.id.clearButton);
 
         loadData();
 
         recyclerView = findViewById(R.id.recycleView);
+        recyclerView.scrollToPosition(userRank.size()-1);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         myAdapter = new RecycleAdapter(userRank);
         recyclerView.setAdapter(myAdapter);
+
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userRank.clear();
+                myAdapter.notifyDataSetChanged();
+            }
+        });
 
         if (getIntent().hasExtra("userName")) {
             System.out.println("new user"+ userRank.size());
