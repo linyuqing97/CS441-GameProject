@@ -16,6 +16,7 @@ public class NameActivity extends AppCompatActivity {
 
     EditText editText;
     Button button;
+    Button leaderBoardButton;
 
 
 
@@ -25,20 +26,34 @@ public class NameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_name);
         button = findViewById(R.id.button);
         editText = findViewById(R.id.editText);
+        leaderBoardButton = findViewById(R.id.leaderBoardButton);
+        final LeaderBoard leaderBoard = new LeaderBoard();
 
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
-                startIntent.putExtra("userName",editText.getText().toString());
+
                 Intent startGameIntent = new Intent(getApplicationContext(),Game.class);
+                startGameIntent.putExtra("userName",editText.getText().toString());
                 startActivity(startGameIntent);
+
+
 
             }
 
 
         });
+        leaderBoardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
+                startIntent.putExtra("userName",editText.getText().toString());
+                startActivity(startIntent);
+            }
+        });
+
     }
 
 }

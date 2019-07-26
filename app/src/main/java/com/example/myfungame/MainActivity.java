@@ -12,18 +12,10 @@ import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    String htmlCode = "<h2>Super Hero </h2>"+
-            "<h2>Super Hero </h2>"+"<h2>Super Hero </h2>"+                       "k asdklf jas" +
-            "<h2>Super Hero </h2>"+            "df jakl;'sdf ka'sdk;f as" +
-            "<h2>Super Hero </h2>"+
-            "<h2>Super Hero </h2>"+            "lkdf al;sdkf as;ldkf a;slkdf ;asldkf as" +
-            "<h2>Super Hero </h2>"+            "df kl;a's; dl;askf a's;ldk " +
-            "<h2>Super Hero </h2>"+            "akdfl; asdl;kf a" +
-            "<h2>Super Hero </h2>"+            "df kasld;fk a;sdlkf as" +
-            "<h2>Super Hero </h2>"+            "dfk asl;dk fas" +
-            "<h2>Super Hero </h2>"+            "'dpfk al;skdf a" +
-            "sdfk al;sdk f" +
-            "asdfkl asl</p>";
+    String htmlCode = "<center><h2>Apple Go</h2>"+
+            "<p>The goal of this game is to get as much score as possible.Apple can only eat out it's enemy--Android, leave other friendly applications such as Adobe PS, XD along!</p>" +
+            "<p> This is very simple game, tap the screen, apple will fly higher otherwise it will fall in a constant speed.</p>"+
+            "<p>each time you ate applications other than android, you lose one life</p>";
 
     Button button;
     @Override

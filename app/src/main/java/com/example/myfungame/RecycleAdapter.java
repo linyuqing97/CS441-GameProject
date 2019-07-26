@@ -7,12 +7,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private ArrayList<userInfo> userRank;
+    private ArrayList<UserInfo> userRank;
 
-    public RecycleAdapter(ArrayList<userInfo>userRank) {
+    public RecycleAdapter(ArrayList<UserInfo>userRank) {
         this.userRank = userRank;
     }
 
@@ -26,10 +28,12 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder( RecyclerView.ViewHolder holder, int position) {
-        userInfo object = userRank.get(position);
+        UserInfo object = userRank.get(position);
 
-        ((Item)holder).pointView.setText(Integer.toString(object.point));
-        ((Item)holder).nameView.setText(object.name);
+        ((Item)holder).pointView.setText(Integer.toString(object.getPoint()));
+        ((Item)holder).nameView.setText(object.getName());
+        ((Item)holder).gameView.setText("Apple go");
+
 
 
     }
@@ -41,11 +45,14 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public class Item extends  RecyclerView.ViewHolder {
         TextView nameView;
         TextView pointView;
+        TextView gameView;
 
         public Item(View itemView) {
             super(itemView);
             pointView= (TextView)itemView.findViewById(R.id.pointView);
             nameView = (TextView)itemView.findViewById(R.id.nameView);
+            gameView = (TextView)itemView.findViewById(R.id.gameView);
+
 
         }
 

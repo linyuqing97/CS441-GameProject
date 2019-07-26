@@ -14,7 +14,7 @@ public class splashScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ImageView imageView = findViewById(R.id.imageView);
-        imageView.setImageResource(R.drawable.screen_image);
+        imageView.setImageResource(R.drawable.applevsandroid);
 
         new Handler().postDelayed(new Runnable() {
             @Override
