@@ -1,6 +1,6 @@
 package com.example.myfungame;
 
-public class UserInfo {
+public class UserInfo implements Comparable<UserInfo> {
     private String name;
     private int point;
     private String game;
@@ -28,4 +28,9 @@ public class UserInfo {
     public void setPoint(int point) {
         this.point = point;
     }
+    @Override
+    public int compareTo(UserInfo info){
+        return (this.getPoint()>info.getPoint()?-1:(this.getPoint()==info.getPoint()?0:1));
+    }
+
 }

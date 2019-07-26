@@ -20,6 +20,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class LeaderBoard extends AppCompatActivity  {
     RecyclerView recyclerView;
@@ -57,18 +59,16 @@ public class LeaderBoard extends AppCompatActivity  {
             String userName = getIntent().getExtras().getString("userName");
 
 
-            for(int i =0; i<userRank.size();i++){
-                if (userName.equalsIgnoreCase( userRank.get(i).getName())){
-                    System.out.print("Dupicated");
-                    userNameCheck = false;
-                }
-
-            }
-            if (userNameCheck) {
-                UserInfo info = new UserInfo(userName,"Apple go",0);
-                userRank.add(info);
+            //Creating some UserInfos for test
+            for(int i = 0;i<20;i++) {
+                UserInfo info = new UserInfo(userName+i, "Apple go"+i, (0+i)%5);
+                userRank = showTopScore(info);
                 myAdapter.notifyDataSetChanged();
             }
+
+
+
+
 
 
         }
@@ -94,20 +94,22 @@ public class LeaderBoard extends AppCompatActivity  {
     }
 
     public ArrayList<UserInfo> showTopScore (UserInfo temp){
-        ArrayList shortedList = new ArrayList<UserInfo>();
-        if(userRank.size()==0)userRank.add(temp);
-        else{
-            for(int i =0;i<userRank.size()+1;i++){
-                if(temp.getPoint()>userRank.get(i).getPoint())shortedList.add(temp);
-                else{
-                    shortedList.add(userRank.get(i));
-                }
-            }
+
+        if (userRank.size()>20){
+            userRank.remove(20);
+            userRank.add(temp);
         }
-        return shortedList;
+        else{
+            userRank.add(temp);
+        }
+        LeaderBoardShorter leaderBoardShorter = new LeaderBoardShorter(userRank);
+        return leaderBoardShorter.getSortedLeaderBoard();
+
 
 
     }
+
+
 
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
