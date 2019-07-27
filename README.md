@@ -19,4 +19,4 @@ Time line:
 7/22:Added leader board with recycleview and save load method.
 7/23:Added gameview by implementing Bitmap and draw method,touchhanderler, some basic gameplay.
 7/25:Added sorting method, changed leaderboard layout,ready to take in data from online.
-7/26:Fixed some bugs on the sorting method,edit README.
+7/26:Fixed some bugs on the sorting method,edit README,added launch icon.
