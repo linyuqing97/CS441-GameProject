@@ -28,18 +28,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
-import java.lang.reflect.Array;
+
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 interface NetResponse{
     void netResult(Integer code, JSONArray json);
 }
-public class LeaderBoard extends AppCompatActivity  {
+
+public class LeaderBoard extends AppCompatActivity implements NetResponse  {
     RecyclerView recyclerView;
     RecyclerView.Adapter myAdapter;
     RecyclerView.LayoutManager layoutManager;
@@ -47,13 +47,14 @@ public class LeaderBoard extends AppCompatActivity  {
     String updateString;
     Button webButton;
     NetTask netTask;
-
+    LeaderBoard handle;
+    URL url;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
         Button clearButton = findViewById(R.id.clearButton);
-        webButton = findViewById(R.id.webButton)
+        webButton = findViewById(R.id.webButton);
         //userRank = new ArrayList<>();
 
         loadData();
@@ -64,15 +65,25 @@ public class LeaderBoard extends AppCompatActivity  {
         recyclerView.setLayoutManager(layoutManager);
         myAdapter = new RecycleAdapter(userRank);
         recyclerView.setAdapter(myAdapter);
+
+         handle = this;
         webButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Clicked the compute button");
+                System.out.println("Clicked the web button");
+
+                String tempString = "http://cs.binghamton.edu/~pmadden/courses/441score/postscore.php?player="+userRank.get(userRank.size()-1).getName()+"&game=AppleGo&score=";
+                int temp = userRank.get(userRank.size()-1).getPoint();
+                String request = tempString.concat(Integer.toString(temp));
+                try {
+                    url = new URL(request);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
 
 
-                System.out.println(updateString);
-
-                netTask = new NetTask("https://cs.binghamton.edu/~pmadden/php/double.php", request, handle);
+                netTask = new NetTask(request
+, request, handle);
 
                 netTask.execute((Void) null);
             }
