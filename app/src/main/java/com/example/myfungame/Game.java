@@ -2,6 +2,7 @@ package com.example.myfungame;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -20,17 +21,34 @@ public class Game extends AppCompatActivity {
         gameView = new GameView(this);
         setContentView(gameView);
 
-        Timer timer= new Timer();
+        final Timer timer= new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        gameView.invalidate();
-                    }
+                        //while (gameView.lifeCount>0){
+
+                        gameView.invalidate();}
+
+
+
+//                    }
                 });
+                synchronized (gameView){
+                    if(gameView.lifeCount==0){
+                        timer.cancel();
+                        Intent startResultIntent = new Intent(getApplicationContext(),Result.class);
+                        //startGameIntent.putExtra("userName",editText.getText().toString());
+                        startActivity(startResultIntent);
+
+                    }
+                }
             }
+
         },0,TimerInterval);
+
+
     }
 }

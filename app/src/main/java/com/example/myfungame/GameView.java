@@ -34,7 +34,9 @@ public class GameView extends View {
     private Paint scorePaint = new Paint();
 
     //life
-    private Bitmap life[] = new Bitmap[2];
+     private Bitmap life[] = new Bitmap[2];
+    public int lifeCount = 3;
+
 
     // level
     private Paint levelPaint = new Paint();
@@ -98,6 +100,7 @@ public class GameView extends View {
 
 
 
+
     }
 
     @Override
@@ -132,6 +135,10 @@ public class GameView extends View {
             psY = (int)Math.floor((Math.random()*(maxY-minY)))+minY;
         }
         canvas.drawBitmap(resizePs,psX,psY,null);
+        if(getHitCheck(psX,psY)){
+            psX-=resizeApple.getWidth();
+            lifeCount--;
+        }
 
 
        // canvas.drawBitmap(resizeApple,0,0,null);
@@ -143,27 +150,51 @@ public class GameView extends View {
         canvas.drawBitmap(resizeAndroid,androidX,androidY,null);
 
         if(getHitCheck(androidX,androidY)){
+            System.out.println("Android x "+androidX+" Android Y： "+ androidY);
             score += 10;
+            androidX-=100;
+            System.out.println("point added");
 
 
         }
 
 
         //basic
+        //Score
         canvas.drawText("Score: "+score,20,60,scorePaint);
+
+        //Level
         canvas.drawText("LEVEL 1 ",canvas.getWidth()/2,60,levelPaint);
 
-        canvas.drawBitmap(life[0],860,30,null);
-        canvas.drawBitmap(life[0],920,30,null);
-        canvas.drawBitmap(life[0],980,30,null);
+        //Life
+        for(int i = 0; i<3;i++) {
+            int x = (int) (860 + life[0].getWidth() * 1.5 * i);
+            int y = 30;
+
+            if (i<lifeCount) {
+                canvas.drawBitmap(life[0],x,y,null);
+
+            }
+            else{
+                canvas.drawBitmap(life[1],x,y,null);
+            }
+        }
+
 
 
     }
     public boolean getHitCheck(int x, int y){
-        if(appleX < x && x < (appleX + apple.getWidth()) && appleY < y && y < (appleY + apple.getHeight())){
+        int appleCenterX = appleX + resizeApple.getWidth()/2;
+        int appleCenterY = appleY + resizeApple.getHeight()/2;
+
+        if(appleX < x && x < (appleX + resizeApple.getWidth()) && appleY < y && y < (appleY + resizeApple.getHeight())){
+            System.out.println("Hit detected");
             return true;
         }
         return  false;
+    }
+    public void gameOver(){
+
     }
 
 
