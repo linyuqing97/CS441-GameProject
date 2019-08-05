@@ -15,7 +15,7 @@ public class GameView extends View {
     private Bitmap ps;
     private boolean touchFlag = false;
 
-    private int score;
+    public int score;
 
     //canvas
     private  int canvasWidth;

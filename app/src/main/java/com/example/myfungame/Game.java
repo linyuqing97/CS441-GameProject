@@ -13,6 +13,7 @@ public class Game extends AppCompatActivity {
     public GameView gameView;
     private Handler handler = new Handler();
     private final static long TimerInterval= 30;
+    String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +21,11 @@ public class Game extends AppCompatActivity {
 
         gameView = new GameView(this);
         setContentView(gameView);
+        if (getIntent().hasExtra("userName")) {
+             userName = getIntent().getExtras().getString("userName");
+        }
 
-        final Timer timer= new Timer();
+            final Timer timer= new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -40,7 +44,9 @@ public class Game extends AppCompatActivity {
                     if(gameView.lifeCount==0){
                         timer.cancel();
                         Intent startResultIntent = new Intent(getApplicationContext(),Result.class);
-                        //startGameIntent.putExtra("userName",editText.getText().toString());
+                        startResultIntent.putExtra("userName",userName);
+                        String score = Integer.toString(gameView.score);
+                        startResultIntent.putExtra("score",score);
                         startActivity(startResultIntent);
 
                     }

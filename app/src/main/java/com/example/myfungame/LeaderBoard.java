@@ -82,7 +82,8 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
                 }
 
 
-                netTask = new NetTask(request
+                netTask = new NetTask("http://cs.binghamton.edu/~pmadden/courses/441score/getscores.php"
+
 , request, handle);
 
                 netTask.execute((Void) null);
@@ -101,11 +102,12 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
         if (getIntent().hasExtra("userName")) {
             System.out.println("new user"+ userRank.size());
             String userName = getIntent().getExtras().getString("userName");
+            int score = Integer.parseInt(getIntent().getExtras().getString("score"));
 
 
             //Creating some UserInfos for test
             for(int i = 0;i<20;i++) {
-                UserInfo info = new UserInfo(userName+i, "Apple go"+i, (0+i)%5);
+                UserInfo info = new UserInfo(userName+i, "Apple go", score);
                 userRank = showTopScore(info);
                 myAdapter.notifyDataSetChanged();
             }
