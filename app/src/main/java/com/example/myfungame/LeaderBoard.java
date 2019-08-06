@@ -99,17 +99,15 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
         });
 
 
-        if (getIntent().hasExtra("userName")) {
+        //if (getIntent().hasExtra("userName") && getIntent().hasExtra("score")) {
             System.out.println("new user"+ userRank.size());
             String userName = getIntent().getExtras().getString("userName");
             int score = Integer.parseInt(getIntent().getExtras().getString("score"));
+            System.out.println("Score: "+score);
+            UserInfo info = new UserInfo(userName,"Apple go",score);
+            userRank = showTopScore(info);
+            myAdapter.notifyDataSetChanged();
 
-
-            //Creating some UserInfos for test
-            for(int i = 0;i<20;i++) {
-                UserInfo info = new UserInfo(userName+i, "Apple go", score);
-                userRank = showTopScore(info);
-                myAdapter.notifyDataSetChanged();
             }
 
 
@@ -117,12 +115,9 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
 
 
 
-        }
+       // }
 
-    }
-    public void notifyDataChanged(){
-        myAdapter.notifyDataSetChanged();
-    }
+
 
 
     public void onPause() {
@@ -203,31 +198,12 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
             });
         }
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+}
 
 
-    public class NetTask extends AsyncTask<Void, Void, Boolean> {
+
+
+class NetTask extends AsyncTask<Void, Void, Boolean> {
         private final String urlString;
         private final String reqString;
         private NetResponse changeListener;
@@ -315,4 +291,4 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
 
         }
     }
-}
+

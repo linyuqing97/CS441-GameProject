@@ -33,7 +33,7 @@ public class NameActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
+               // Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
 
                 Intent startGameIntent = new Intent(getApplicationContext(),Game.class);
                 startGameIntent.putExtra("userName",editText.getText().toString());
@@ -49,7 +49,7 @@ public class NameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent startIntent  = new Intent(getApplicationContext(),LeaderBoard.class);
-                startIntent.putExtra("userName",editText.getText().toString());
+                //startIntent.putExtra("userName",editText.getText().toString());
                 startActivity(startIntent);
             }
         });
