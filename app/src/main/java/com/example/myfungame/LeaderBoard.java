@@ -99,7 +99,7 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
         });
 
 
-        //if (getIntent().hasExtra("userName") && getIntent().hasExtra("score")) {
+        if (getIntent().hasExtra("userName") && getIntent().hasExtra("score")) {
             System.out.println("new user"+ userRank.size());
             String userName = getIntent().getExtras().getString("userName");
             int score = Integer.parseInt(getIntent().getExtras().getString("score"));
@@ -115,7 +115,7 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse  {
 
 
 
-       // }
+        }
 
 
 
