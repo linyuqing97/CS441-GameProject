@@ -76,6 +76,9 @@ public class GameView extends View {
         resizeAndroid = Bitmap.createScaledBitmap(android,100,100,true);
 
 
+        //
+
+
 
 
         scorePaint.setColor(Color.BLACK );

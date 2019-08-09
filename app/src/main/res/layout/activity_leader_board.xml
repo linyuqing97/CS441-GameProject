@@ -25,7 +25,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/webButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/transparent"/>
 
     <Button
         android:id="@+id/webButton"
@@ -34,7 +35,8 @@
         android:layout_marginTop="8dp"
         android:text="Send Top Score"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/transparent"/>
 
     <TextView
         android:id="@+id/textView"
@@ -78,6 +80,7 @@
         android:layout_marginTop="8dp"
         android:text="Get Scores"
         app:layout_constraintStart_toEndOf="@+id/webButton"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/transparent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

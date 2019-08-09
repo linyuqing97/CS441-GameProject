@@ -32,7 +32,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         ((Item)holder).pointView.setText(Integer.toString(object.getPoint()));
         ((Item)holder).nameView.setText(object.getName());
-        ((Item)holder).gameView.setText("Apple go");
+        ((Item)holder).gameView.setText(object.getGame());
 
 
 

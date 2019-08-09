@@ -1,18 +1,14 @@
 package com.example.myfungame;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,12 +28,12 @@ import java.io.Reader;
 
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
+
 import java.net.URL;
 import java.util.ArrayList;
 
 interface NetResponse{
-    void netResult(Integer code, JSONArray json);
+    ArrayList<UserInfo> netResult(Integer code, JSONArray json);
 }
 
 public class LeaderBoard extends AppCompatActivity implements NetResponse {
@@ -56,11 +52,13 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
+
+        //inital variable
         Button clearButton = findViewById(R.id.clearButton);
         webButton = findViewById(R.id.webButton);
         getWebButton = findViewById(R.id.getWebResult);
-        //userRank = new ArrayList<>();
 
+        //restore data
         loadData();
 
         recyclerView = findViewById(R.id.recycleView);
@@ -114,9 +112,15 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
         getWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                userRank.clear();
                 netTask = new NetTask("http://cs.binghamton.edu/~pmadden/courses/441score/getscores.php", null, handle);
-
                 netTask.execute((Void) null);
+                System.out.println("Finished Net Tesk");
+                for(int i = 0; i < userRank.size();i++){
+                    System.out.println(userRank.get(i).getGame()+" "+userRank.get(i).getName());
+                }
+
+                myAdapter.notifyDataSetChanged();
             }
         });
 
@@ -167,7 +171,7 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
     }
 
     //
-    public void netResult(Integer code, JSONArray json) {
+    public ArrayList<UserInfo> netResult(Integer code, JSONArray json) {
         System.out.println("Got a result from the web");
         System.out.println(json.length());
         updateString = "";
@@ -187,6 +191,9 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
                     gameNameFromWeb = item.getString("game");
                     scoreFromWeb = Integer.parseInt(item.getString("score"));
 
+                    System.out.println("Player is "+playerNameFromWeb+"The game name is : "+gameNameFromWeb + "score: "+scoreFromWeb);
+                    UserInfo info = new UserInfo(playerNameFromWeb, gameNameFromWeb,scoreFromWeb);
+                    userRank.add(info);
 
                 }
             } catch (JSONException e) {
@@ -196,17 +203,22 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
 
             this.runOnUiThread(new Runnable() {
                 @Override
-                public void run() {
+               public void run() {
 
-                    UserInfo info = new UserInfo(playerNameFromWeb, gameNameFromWeb,scoreFromWeb);
-                    userRank = showTopScore(info);
+//                    UserInfo info = new UserInfo(playerNameFromWeb, gameNameFromWeb,scoreFromWeb);
+//                    userRank.add(info);
+                    System.out.println("Updating Leaderboard");
                     myAdapter.notifyDataSetChanged();
+
 
                 }
             });
         }
+       System.out.println("here");
+        return userRank;
+
     }
-    class NetTask extends AsyncTask<Void, Void, Boolean> {
+    class NetTask extends AsyncTask<Void, Void, ArrayList<UserInfo>> {
             private final String urlString;
             private final String reqString;
             private NetResponse changeListener;
@@ -218,23 +230,16 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
             }
 
             @Override
-            protected Boolean doInBackground(Void... params) {
+            protected ArrayList<UserInfo> doInBackground(Void... params) {
                 try {
                     System.out.println("JSON Query: " + reqString);
-                    // JSONObject json = readJsonFromUrl("https://graph.facebook.com/19292868552");
-                    // JSONObject json = readJsonFromUrl("https://cnn.com");
-                    // System.out.println(reqString);
                     JSONArray json = readJsonFromUrl(reqString);
                     System.out.println("Finished getting json.");
                     if (json != null)
                         System.out.println(json.toString());
 
                     if (changeListener != null)
-                        changeListener.netResult(0, json);
-
-                    //System.out.println("Notify that JSON has come in");
-                    // if (noteConnector != null)
-                    //    noteConnector.ncnotify(0, "");
+                        userRank = changeListener.netResult(0, json);;
 
                 } catch (IOException e) {
                     System.out.println("IO exception");
@@ -247,10 +252,23 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
                     if (changeListener != null)
                         changeListener.netResult(2, null);
                 }
-                return true;
+
+                System.out.println("Finished do in back gorund");
+                return userRank;
             }
 
-            private String readAll(Reader rd) throws IOException {
+        //@Override
+//        protected void onPostExecute(ArrayList<UserInfo>userInfo) {
+//            super.onPostExecute(userInfo);
+//            myAdapter.notifyDataSetChanged();
+//            for(int i = 0;i<userRank.size();i++) {
+//                System.out.println("Player is " + userRank.get(i).getName() + "The game name is : " + userRank.get(i).getGame() + "score: " + scoreFromWeb);
+//            }
+//
+//            System.out.println("On post Execute");
+//        }
+
+        private String readAll(Reader rd) throws IOException {
                 StringBuilder sb = new StringBuilder();
                 int cp;
                 while ((cp = rd.read()) != -1) {
@@ -271,9 +289,6 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
                 connection.setDoInput(true);
                 System.out.println("Network request to " + urlString + " with request " + reqString);
                 OutputStream urlout = connection.getOutputStream();
-                System.out.println("here");
-
-
 
 
                 InputStream is = connection.getInputStream();
