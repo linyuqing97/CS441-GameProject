@@ -10,12 +10,19 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameView extends View {
     private Bitmap apple;
     private Bitmap ps;
+    private Bitmap github;
+    private Bitmap xd;
     private boolean touchFlag = false;
 
     public int score;
+    //level
+    public int level = 1;
 
     //canvas
     private  int canvasWidth;
@@ -27,14 +34,16 @@ public class GameView extends View {
     private int moveSpeed;
     //background:
     private Bitmap bgImage;
+    private Bitmap resizeBgImage;
     private Bitmap resizeApple;
     private Bitmap resizePs;
+    private Bitmap resizeGithub;
 
     //score
     private Paint scorePaint = new Paint();
 
     //life
-     private Bitmap life[] = new Bitmap[2];
+    private Bitmap life[] = new Bitmap[2];
     public int lifeCount = 3;
 
 
@@ -47,6 +56,12 @@ public class GameView extends View {
     private int psSpeed = 15;
     private Paint psPaint = new Paint();
 
+    //github
+    private int githubX;
+    private int githubY;
+    private int githubSpeed= 25;
+    private Paint githubPaint = new Paint();
+
     //Android
     Bitmap android;
     Bitmap resizeAndroid;
@@ -58,27 +73,29 @@ public class GameView extends View {
 
 
 
+
     public GameView(Context context) {
         super(context);
 
         //apple
         apple = BitmapFactory.decodeResource(getResources(),R.drawable.apple);
-        resizeApple = Bitmap.createScaledBitmap(apple,100,100,true);
+        resizeApple = Bitmap.createScaledBitmap(apple,150,150,true);
 
 
         //ps
         ps = BitmapFactory.decodeResource(getResources(),R.drawable.ps);
-        resizePs = Bitmap.createScaledBitmap(ps,100,100,true);
+        resizePs = Bitmap.createScaledBitmap(ps,150,150,true);
 
+        //gitHub
+        github = BitmapFactory.decodeResource(getResources(),R.drawable.github);
+        resizeGithub = Bitmap.createScaledBitmap(github,150,150,true);
 
         //android
-        android = BitmapFactory.decodeResource(getResources(),R.drawable.android);
-        resizeAndroid = Bitmap.createScaledBitmap(android,100,100,true);
+        android = BitmapFactory.decodeResource(getResources(),R.drawable.androidicon);
+        resizeAndroid = Bitmap.createScaledBitmap(android,150,150,true);
 
 
-        //
-
-
+        bgImage = BitmapFactory.decodeResource(getResources(),R.drawable.backgroundgame);
 
 
         scorePaint.setColor(Color.BLACK );
@@ -97,9 +114,22 @@ public class GameView extends View {
         psPaint.setAntiAlias(false);
 
         //First position
+
         appleY = 500;
 
+        //level control
+        Timer levelTimer = new Timer();
+        levelTimer.scheduleAtFixedRate(new TimerTask()
+        {
+            public void run()
+            {
+                // Your code
 
+                level++;
+
+
+            }
+        }, 10000, 10000);
 
 
 
@@ -111,6 +141,7 @@ public class GameView extends View {
 
         canvasWidth = canvas.getWidth();
         canvasHeight = canvas.getHeight();
+        canvas.drawBitmap(bgImage,0,0,null);
 
 
         //apple
@@ -120,7 +151,7 @@ public class GameView extends View {
         appleY += moveSpeed;
         if(appleY<minY)appleY = minY;
         if(appleY>maxY)appleY = maxY;
-        moveSpeed +=2;
+        moveSpeed +=3;
 
 
         if(touchFlag){
@@ -132,7 +163,7 @@ public class GameView extends View {
         }
 
         //ps
-        psX -= psSpeed;
+        psX = psX- (psSpeed+level);
         if(psX < 0){
             psX = canvasWidth + 20;
             psY = (int)Math.floor((Math.random()*(maxY-minY)))+minY;
@@ -141,6 +172,20 @@ public class GameView extends View {
         if(getHitCheck(psX,psY)){
             psX-=resizeApple.getWidth();
             lifeCount--;
+        }
+
+        //gitHub
+        githubX = githubX - (githubSpeed+level);
+        if(level > 3) {
+            if (githubX < 0) {
+                githubX = canvasWidth + 20;
+                githubY = (int) Math.floor((Math.random() * (maxY - minY))) + minY;
+            }
+            canvas.drawBitmap(resizeGithub, githubX, githubY, null);
+            if (getHitCheck(githubX, githubY)) {
+                githubX -= resizeApple.getWidth()+10;
+                lifeCount--;
+            }
         }
 
 
@@ -162,16 +207,16 @@ public class GameView extends View {
         }
 
 
-        //basic
+
         //Score
         canvas.drawText("Score: "+score,20,60,scorePaint);
 
         //Level
-        canvas.drawText("LEVEL 1 ",canvas.getWidth()/2,60,levelPaint);
+        canvas.drawText("LEVEL "+level,canvas.getWidth()/2,60,levelPaint);
 
         //Life
         for(int i = 0; i<3;i++) {
-            int x = (int) (860 + life[0].getWidth() * 1.5 * i);
+            int x = (int) (820 + life[0].getWidth() * 1.5 * i);
             int y = 30;
 
             if (i<lifeCount) {

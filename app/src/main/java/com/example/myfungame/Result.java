@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class Result extends AppCompatActivity {
+public class Result extends LeaderBoard {
     String userName;
     String score;
 
@@ -33,14 +33,26 @@ public class Result extends AppCompatActivity {
 
             scoreLabel.setText(score);
 
+            UserInfo info = new UserInfo(userName,"Apple Go",Integer.parseInt(score));
+            showTopScore(info);
+
+            if(userRank.get(0)!=null)
+            {
+                int highestScore = userRank.get(0).getPoint();
+                highScore.setText("Hightest Score: "+Integer.toString(highestScore));
+            }
+            else{
+                highScore.setText("Hightest Score: "+score);
+            }
+
+
        }
          saveScore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent saveIntent = new Intent(getApplicationContext(),LeaderBoard.class);
 
-                saveIntent.putExtra("userName",userName);
-                saveIntent.putExtra("score",score);
+                myAdapter.notifyDataSetChanged();
                 startActivity(saveIntent);
             }
         });

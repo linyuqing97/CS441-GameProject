@@ -93,21 +93,13 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
             @Override
             public void onClick(View view) {
                 userRank.clear();
+                System.out.println("Clear, user Rank size: "+userRank.size());
                 myAdapter.notifyDataSetChanged();
             }
         });
 
 
-        if (getIntent().hasExtra("userName") && getIntent().hasExtra("score")) {
-            System.out.println("new user" + userRank.size());
-            String userName = getIntent().getExtras().getString("userName");
-            int score = Integer.parseInt(getIntent().getExtras().getString("score"));
-            System.out.println("Score: " + score);
-            UserInfo info = new UserInfo(userName, "Apple go", score);
-            userRank = showTopScore(info);
-            myAdapter.notifyDataSetChanged();
 
-        }
 
         getWebButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,7 +185,7 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
 
                     System.out.println("Player is "+playerNameFromWeb+"The game name is : "+gameNameFromWeb + "score: "+scoreFromWeb);
                     UserInfo info = new UserInfo(playerNameFromWeb, gameNameFromWeb,scoreFromWeb);
-                    userRank.add(info);
+                    showTopScore(info);
 
                 }
             } catch (JSONException e) {
@@ -257,16 +249,7 @@ public class LeaderBoard extends AppCompatActivity implements NetResponse {
                 return userRank;
             }
 
-        //@Override
-//        protected void onPostExecute(ArrayList<UserInfo>userInfo) {
-//            super.onPostExecute(userInfo);
-//            myAdapter.notifyDataSetChanged();
-//            for(int i = 0;i<userRank.size();i++) {
-//                System.out.println("Player is " + userRank.get(i).getName() + "The game name is : " + userRank.get(i).getGame() + "score: " + scoreFromWeb);
-//            }
-//
-//            System.out.println("On post Execute");
-//        }
+
 
         private String readAll(Reader rd) throws IOException {
                 StringBuilder sb = new StringBuilder();

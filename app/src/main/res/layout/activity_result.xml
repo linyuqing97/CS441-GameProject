@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Result">
+    tools:context=".Result"
+    android:background="@drawable/resultbackground">
 
     <TextView
         android:id="@+id/gameOver"
@@ -15,10 +16,12 @@
         android:layout_marginTop="136dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:textColor="#dfeef5"
         android:text="Game Over"
         android:textAlignment="center"
+        android:textStyle="bold"
         android:textAllCaps="true"
-        android:textSize="36sp"
+        android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,28 +33,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:text="150"
-        android:textSize="24sp"
+        android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameOver" />
 
     <TextView
         android:id="@+id/highScore"
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-
+        android:textStyle="bold"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:text="High sore 30"
+        android:text="High Sore 30"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scoreLabel" />
 
@@ -68,7 +73,8 @@
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/highScore" />
+        app:layout_constraintTop_toBottomOf="@+id/highScore"
+        android:background="@drawable/roundedbutton"/>
 
     <Button
         android:id="@+id/tryAgain"
@@ -76,6 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+        android:background="@drawable/roundedbutton"
 
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"

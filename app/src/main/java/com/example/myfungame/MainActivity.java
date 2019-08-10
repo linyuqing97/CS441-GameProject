@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
             "<p>The goal of this game is to get as much score as possible.Apple can only eat out it's enemy--Android, leave other friendly applications such as Adobe PS, XD along!</p>" +
             "<p> This is very simple game, tap the screen, apple will fly higher otherwise it will fall in a constant speed.</p>"+
             "<p>each time you ate applications other than android, you lose one life</p>"+
-            "This description is set just for now, I still thinking about the rules !!!!!! ";
+            "<p>All level increase every 10 second which will increase the speed of point deducting objects</p>"+"<p>Top 20 score will be store in leader board as descending order";
 
     Button button;
     @Override

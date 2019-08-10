@@ -26,21 +26,20 @@ public class Game extends AppCompatActivity {
         }
 
             final Timer timer= new Timer();
-        timer.schedule(new TimerTask() {
+            timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //while (gameView.lifeCount>0){
 
                         gameView.invalidate();}
 
 
-
 //                    }
                 });
-                synchronized (gameView){
+                    synchronized (gameView){
+
                     if(gameView.lifeCount==0){
                         timer.cancel();
                         Intent startResultIntent = new Intent(getApplicationContext(),Result.class);
