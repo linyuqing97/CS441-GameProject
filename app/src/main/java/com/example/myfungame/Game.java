@@ -38,7 +38,7 @@ public class Game extends AppCompatActivity {
 
 //                    }
                 });
-                    synchronized (gameView){
+                    c (gameView){
 
                     if(gameView.lifeCount==0){
                         timer.cancel();
